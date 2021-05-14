@@ -45,10 +45,28 @@ else {
 
 foreach my $file (@sorted_files) {
 	if ( -d $file ) {
-		next;
+		if ( $status == 0 ) {
+			$status=1;
+		}
+		if ( defined($options{s}) ) {
+			next;
+		}
+		else {
+			print STDERR ("$name: $file: Is a directory\n");
+			next;
+		}
 	}
 	if ( !$fh->open( $file, 'r' ) ) {
-		next;
+		if ( $status == 0 ) {
+			$status=1;
+		}
+		if ( defined($options{s}) ) {
+			next;
+		}
+		else {
+			print STDERR ("$name: $file: No such file or directory\n");
+			next;
+		}
 	}
 	if ( $file =~ /[^[:xdigit:]]([[:xdigit:]]{8})[^[:xdigit:]]/ ) {
 		binmode($fh);
@@ -73,7 +91,7 @@ foreach my $file (@sorted_files) {
 				$status=1;
 			}
 			if ( defined($options{s}) ) {
-				next
+				next;
 			}
 			else {
 				print("$file \t\033[31;1mBAD $fileCrc != $filenameCrc\033[0m");
