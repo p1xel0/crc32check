@@ -48,7 +48,7 @@ foreach my $file (@sorted_files) {
 		if ( $status == 0 ) {
 			$status=1;
 		}
-		if ( defined($options{s}) ) {
+		if ( defined($options{s}) || defined($options{r}) ) {
 			next;
 		}
 		else {
